@@ -1,118 +1,314 @@
-import React from "react";
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Study Planner</title>
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1320; --accent:#7c5cff; --muted:#9aa4b2; --glass: rgba(255,255,255,0.04);
+      --radius:12px; --glass-2: rgba(255,255,255,0.02);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:
+      radial-gradient(1200px 600px at 10% 10%, rgba(124,92,255,0.12), transparent 8%),
+      radial-gradient(900px 500px at 90% 90%, rgba(34,197,94,0.05), transparent 8%),
+      linear-gradient(180deg,#071026 0%, #071021 100%);
+      color:#e6eef6; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      padding:28px;
+    }
 
-// School Resume Template (React + Tailwind)
-// Simple, professional, and student-friendly resume design.
+    .container{max-width:980px;margin:0 auto;padding:28px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:16px; box-shadow:0 8px 30px rgba(2,6,23,0.7); display:grid; grid-template-columns: 1fr 380px; gap:20px; align-items:start;}
+    header{display:flex; gap:16px; align-items:center}
+    .logo{width:68px;height:68px;border-radius:14px;background:linear-gradient(135deg,var(--accent), #4cc9f0); display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;color:white;box-shadow:0 6px 18px rgba(124,92,255,0.18)}
+    h1{margin:0;font-size:20px}
+    p.lead{margin:2px 0 0;color:var(--muted);font-size:13px}
 
-export default function SchoolResume() {
-  return (
-    <div className="min-h-screen bg-gray-50 p-8 font-sans">
-      <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-md overflow-hidden border border-gray-200">
-        {/* Header */}
-        <header className="p-6 border-b border-gray-200 flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-800">Bayartsetseg B.</h1>
-            <p className="text-sm text-gray-500">Student • Business & Economics</p>
-            <div className="mt-1 text-xs text-gray-500 space-x-2">
-              <span>📍 Taiwan</span>
-              <span>•</span>
-              <span>✉️ bayart@example.com</span>
-              <span>•</span>
-              <span>📞 +886 900 000 000</span>
-            </div>
+    /* Left: planner */
+    .panel{background:linear-gradient(180deg,var(--glass),var(--glass-2)); border-radius:var(--radius); padding:20px; border:1px solid rgba(255,255,255,0.03)}
+    form.row{display:flex;gap:10px;align-items:center}
+    input[type="text"]{flex:1;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;font-size:14px}
+    select, button{padding:10px 12px;border-radius:10px;border:0;font-weight:600;cursor:pointer}
+    button.primary{background:linear-gradient(90deg,var(--accent), #4cc9f0); color:white;border:0}
+    .meta{display:flex;gap:8px;margin-top:12px;align-items:center;color:var(--muted);font-size:13px}
+    .stats{display:flex;gap:12px;margin-left:auto}
+
+    .task-list{margin-top:18px;display:flex;flex-direction:column;gap:8px}
+    .task{display:flex;gap:10px;align-items:center;padding:12px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.02)}
+    .task .left{display:flex;flex-direction:column;flex:1;min-width:0}
+    .task h3{margin:0;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .task p{margin:6px 0 0;color:var(--muted);font-size:13px}
+    .controls{display:flex;gap:8px;align-items:center}
+    .btn-icon{background:transparent;border:1px solid rgba(255,255,255,0.03);padding:8px;border-radius:8px;cursor:pointer}
+    .completed h3{ text-decoration:line-through; opacity:0.6 }
+    .tag{font-size:12px;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,0.03);color:var(--muted);border:1px solid rgba(255,255,255,0.02);}
+
+    /* Right column: calendar & progress */
+    .right{position:relative}
+    .card{padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03)}
+    .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:10px}
+    .day{height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--muted);background:transparent;border:1px dashed rgba(255,255,255,0.02)}
+    .today{background: linear-gradient(90deg, rgba(124,92,255,0.12), rgba(76,201,240,0.06)); color: #dfe8ff; border:1px solid rgba(124,92,255,0.12)}
+    .progress{margin-top:12px}
+    .progress-bar{height:14px;border-radius:999px;background:rgba(255,255,255,0.04);overflow:hidden}
+    .progress-fill{height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,var(--accent), #4cc9f0);transition:width 500ms ease}
+
+    /* filters */
+    .filters{display:flex;gap:8px;margin-top:10px}
+    .chip{padding:8px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--muted);font-size:13px;cursor:pointer}
+    .chip.active{background:rgba(124,92,255,0.12); color:#edf2ff; border-color:rgba(124,92,255,0.24)}
+
+    footer{grid-column:1/-1;margin-top:14px;color:var(--muted);font-size:12px;text-align:center}
+    @media (max-width:920px){
+      .container{grid-template-columns: 1fr; padding:16px}
+      .right{order:2}
+    }
+  </style>
+</head>
+<body>
+  <div class="container" role="application" aria-label="Study Planner">
+    <div>
+      <header style="margin-bottom:14px">
+        <div class="logo" aria-hidden>SP</div>
+        <div>
+          <h1>Study Planner</h1>
+          <p class="lead">Organize tasks, track progress, and keep study goals on track.</p>
+        </div>
+      </header>
+
+      <section class="panel" aria-labelledby="add-heading">
+        <h2 id="add-heading" style="margin:0 0 10px;font-size:16px;color:#dfe8ff">Add a study task</h2>
+
+        <form id="task-form" class="row" onsubmit="return false;">
+          <input id="title" type="text" placeholder="Task title — e.g. Microeconomics reading (Ch.4)" required>
+          <select id="priority" title="priority">
+            <option value="normal">Normal</option>
+            <option value="important">Important</option>
+            <option value="urgent">Urgent</option>
+          </select>
+          <button id="add-btn" class="primary">Add</button>
+        </form>
+
+        <div class="meta" aria-hidden>
+          <div class="tag">Auto-save: localStorage</div>
+          <div style="margin-left:auto" class="stats">
+            <div id="total-count">0 tasks</div>
+            <div id="done-count">0 done</div>
           </div>
-          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-400 to-purple-400 flex items-center justify-center text-white text-3xl font-bold">
-            🎓
-          </div>
-        </header>
+        </div>
 
-        {/* Main Content */}
-        <main className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Left column */}
-          <section className="md:col-span-1 space-y-6">
-            {/* Profile */}
-            <div>
-              <h2 className="text-lg font-semibold text-gray-700">Profile</h2>
-              <p className="mt-2 text-sm text-gray-600 leading-relaxed">
-                Dedicated and motivated business student with strong interests in economics, finance, and cultural projects.
-                Eager to apply academic knowledge to real-world challenges while developing leadership and teamwork skills.
-              </p>
-            </div>
+        <div class="filters" role="tablist" aria-label="task filters">
+          <button class="chip active" data-filter="all">All</button>
+          <button class="chip" data-filter="active">Active</button>
+          <button class="chip" data-filter="completed">Completed</button>
+          <button class="chip" data-filter="priority">Important</button>
+        </div>
 
-            {/* Skills */}
-            <div>
-              <h2 className="text-lg font-semibold text-gray-700">Skills</h2>
-              <ul className="mt-2 space-y-1 text-sm text-gray-600 list-disc ml-5">
-                <li>Research & Report Writing</li>
-                <li>Event Planning & Coordination</li>
-                <li>Data Analysis (Excel, SPSS)</li>
-                <li>Public Speaking</li>
-                <li>Teamwork & Collaboration</li>
-              </ul>
-            </div>
+        <div class="task-list" id="task-list" aria-live="polite" aria-label="Task list">
+          <!-- tasks inserted here -->
+        </div>
+      </section>
 
-            {/* Languages */}
-            <div>
-              <h2 className="text-lg font-semibold text-gray-700">Languages</h2>
-              <p className="mt-2 text-sm text-gray-600">Mongolian (Native) • English (B2/C1) • Mandarin (Basic)</p>
-            </div>
-          </section>
-
-          {/* Right column */}
-          <section className="md:col-span-2 space-y-6">
-            {/* Education */}
-            <div>
-              <h2 className="text-lg font-semibold text-gray-700">Education</h2>
-              <div className="mt-3 space-y-3 text-sm text-gray-600">
-                <div>
-                  <div className="flex justify-between">
-                    <span className="font-medium">Asian University of Taiwan — B.A. Business</span>
-                    <span className="italic text-xs text-gray-400">2022 — Present</span>
-                  </div>
-                  <p className="mt-1 text-xs text-gray-500">Focus: Economics, Finance, and International Business</p>
-                </div>
-                <div>
-                  <div className="flex justify-between">
-                    <span className="font-medium">Mongolian University of Finance & Economics</span>
-                    <span className="italic text-xs text-gray-400">2020 — 2022</span>
-                  </div>
-                  <p className="mt-1 text-xs text-gray-500">Completed foundational courses in business and statistics.</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Experience */}
-            <div>
-              <h2 className="text-lg font-semibold text-gray-700">Experience</h2>
-              <div className="mt-3 space-y-3 text-sm text-gray-600">
-                <div>
-                  <div className="flex justify-between">
-                    <span className="font-medium">Event Organizer — Хэмнэл Arts Club</span>
-                    <span className="italic text-xs text-gray-400">2025</span>
-                  </div>
-                  <p className="mt-1 text-xs text-gray-500">Planned and coordinated cultural performances, managing logistics and creative design.</p>
-                </div>
-                <div>
-                  <div className="flex justify-between">
-                    <span className="font-medium">Finance Group Projects</span>
-                    <span className="italic text-xs text-gray-400">2023 — 2025</span>
-                  </div>
-                  <p className="mt-1 text-xs text-gray-500">Worked on financial forecasting, capital structure, and break-even analysis for real companies.</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Achievements */}
-            <div>
-              <h2 className="text-lg font-semibold text-gray-700">Achievements</h2>
-              <ul className="mt-2 list-disc ml-5 text-sm text-gray-600 space-y-1">
-                <li>Presented cultural heritage project on Mongolia (2024)</li>
-                <li>IELTS target score: 7 (in progress)</li>
-                <li>TOEFL ITP preparation (target 550)</li>
-              </ul>
-            </div>
-          </section>
-        </main>
-      </div>
+      <footer>Tip: Tasks are stored only on this browser. Clear data from DevTools or storage to reset.</footer>
     </div>
-  );
-}
+
+    <aside class="right">
+      <div class="card">
+        <h3 style="margin:0 0 6px">Weekly Snapshot</h3>
+        <p style="margin:0;color:var(--muted);font-size:13px">Simple calendar (visual) — today highlighted</p>
+        <div class="calendar" id="calendar" aria-hidden>
+          <!-- 7-day display -->
+        </div>
+
+        <div class="progress" aria-hidden>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-size:13px;color:var(--muted)">Completion</div>
+            <div id="percent-text" style="font-weight:700">0%</div>
+          </div>
+          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="margin-top:8px">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:14px"></div>
+
+      <div class="card" aria-hidden>
+        <h3 style="margin:0 0 6px">Quick actions</h3>
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button class="chip" id="clear-completed">Clear Completed</button>
+          <button class="chip" id="clear-all">Clear All</button>
+        </div>
+        <p style="margin-top:10px;color:var(--muted);font-size:13px">Use filters to focus — tasks persist across reloads.</p>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    /* --- Simple Study Planner JS --- */
+    const STORAGE_KEY = 'study_planner_tasks_v1';
+
+    // Elements
+    const form = document.getElementById('task-form');
+    const titleInput = document.getElementById('title');
+    const prioritySelect = document.getElementById('priority');
+    const addBtn = document.getElementById('add-btn');
+    const taskListEl = document.getElementById('task-list');
+    const totalCountEl = document.getElementById('total-count');
+    const doneCountEl = document.getElementById('done-count');
+    const percentText = document.getElementById('percent-text');
+    const progressFill = document.getElementById('progress-fill');
+    const filters = document.querySelectorAll('.chip[data-filter]');
+    const clearCompletedBtn = document.getElementById('clear-completed');
+    const clearAllBtn = document.getElementById('clear-all');
+    const calendarEl = document.getElementById('calendar');
+
+    let tasks = [];
+    let activeFilter = 'all';
+
+    // Utilities
+    const uid = () => (Date.now().toString(36) + Math.random().toString(36).slice(2,8));
+    const save = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+    const load = () => {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        tasks = raw ? JSON.parse(raw) : [];
+      } catch(e){ tasks = [] }
+    };
+
+    // Render
+    function renderTasks(){
+      taskListEl.innerHTML = '';
+      const filtered = tasks.filter(t => {
+        if(activeFilter === 'all') return true;
+        if(activeFilter === 'active') return !t.done;
+        if(activeFilter === 'completed') return t.done;
+        if(activeFilter === 'priority') return t.priority === 'important' || t.priority === 'urgent';
+      });
+
+      for(const t of filtered){
+        const item = document.createElement('div');
+        item.className = 'task' + (t.done ? ' completed' : '');
+        item.setAttribute('data-id', t.id);
+
+        const left = document.createElement('div'); left.className = 'left';
+        const h = document.createElement('h3'); h.textContent = t.title;
+        const p = document.createElement('p'); p.textContent = (t.priority === 'urgent' ? '⚠️ Urgent ' : t.priority === 'important' ? '⭐ Important ' : '') + ' • added ' + new Date(t.createdAt).toLocaleString();
+        left.appendChild(h); left.appendChild(p);
+
+        const controls = document.createElement('div'); controls.className = 'controls';
+        const doneBtn = document.createElement('button'); doneBtn.className = 'btn-icon'; doneBtn.title = 'Toggle done'; doneBtn.innerHTML = t.done ? '↺' : '✓';
+        const delBtn = document.createElement('button'); delBtn.className = 'btn-icon'; delBtn.title = 'Delete'; delBtn.innerHTML = '✕';
+
+        doneBtn.addEventListener('click', ()=> toggleDone(t.id));
+        delBtn.addEventListener('click', ()=> deleteTask(t.id));
+
+        controls.appendChild(doneBtn);
+        controls.appendChild(delBtn);
+
+        const tag = document.createElement('div'); tag.className = 'tag'; tag.textContent = t.priority;
+
+        item.appendChild(left);
+        item.appendChild(tag);
+        item.appendChild(controls);
+        taskListEl.appendChild(item);
+      }
+
+      // stats
+      totalCountEl.textContent = tasks.length + (tasks.length === 1 ? ' task' : ' tasks');
+      const doneCount = tasks.filter(t=>t.done).length;
+      doneCountEl.textContent = doneCount + ' done';
+      const pct = tasks.length ? Math.round((doneCount / tasks.length) * 100) : 0;
+      percentText.textContent = pct + '%';
+      progressFill.style.width = pct + '%';
+      progressFill.parentElement.setAttribute('aria-valuenow', pct);
+    }
+
+    // Actions
+    function addTask(title, priority='normal'){
+      const t = { id: uid(), title: title.trim(), priority, createdAt: Date.now(), done: false };
+      tasks.unshift(t);
+      save();
+      renderTasks();
+    }
+
+    function toggleDone(id){
+      tasks = tasks.map(t => t.id === id ? {...t, done: !t.done} : t);
+      save(); renderTasks();
+    }
+
+    function deleteTask(id){
+      tasks = tasks.filter(t => t.id !== id);
+      save(); renderTasks();
+    }
+
+    function clearCompleted(){
+      tasks = tasks.filter(t => !t.done);
+      save(); renderTasks();
+    }
+    function clearAll(){ if(confirm('Clear ALL tasks?')){ tasks = []; save(); renderTasks(); } }
+
+    // Filters UI
+    filters.forEach(f=>{
+      f.addEventListener('click', ()=> {
+        filters.forEach(x=>x.classList.remove('active'));
+        f.classList.add('active');
+        activeFilter = f.dataset.filter;
+        renderTasks();
+      });
+    });
+
+    // Form submit
+    addBtn.addEventListener('click', ()=>{
+      const title = titleInput.value.trim();
+      if(!title) { titleInput.focus(); return; }
+      addTask(title, prioritySelect.value);
+      titleInput.value=''; prioritySelect.value='normal'; titleInput.focus();
+    });
+
+    // Keyboard: Enter to submit
+    titleInput.addEventListener('keydown', (e)=> { if(e.key === 'Enter') addBtn.click(); });
+
+    clearCompletedBtn.addEventListener('click', ()=> {
+      if(confirm('Remove all completed tasks?')) clearCompleted();
+    });
+    clearAllBtn.addEventListener('click', clearAll);
+
+    // Calendar small (7 days)
+    function renderCalendar(){
+      calendarEl.innerHTML = '';
+      const now = new Date();
+      // show today and +/-3 days
+      for(let d=-3; d<=3; d++){
+        const day = new Date(now);
+        day.setDate(now.getDate() + d);
+        const el = document.createElement('div');
+        el.className = 'day' + (d===0 ? ' today' : '');
+        el.textContent = day.toLocaleDateString(undefined, { weekday:'short', day:'numeric' });
+        calendarEl.appendChild(el);
+      }
+    }
+
+    // Init
+    load();
+    renderCalendar();
+    renderTasks();
+
+    // Accessibility: announce saved state on unload (small)
+    window.addEventListener('beforeunload', ()=> {
+      navigator.sendBeacon && localStorage && navigator.sendBeacon('/favicon.ico'); // no-op to hint saving. (safe)
+      save();
+    });
+
+    // Small sample tasks if empty (first run)
+    if(tasks.length === 0){
+      addTask('Read Microeconomics — Chapter 4: Elasticity', 'important');
+      addTask('Practice TOEFL listening (30 min)', 'normal');
+      addTask('Prepare presentation slides — Mongolia culture', 'urgent');
+    }
+  </script>
+</body>
+</html>
