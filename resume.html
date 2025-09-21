@@ -1,0 +1,118 @@
+import React from "react";
+
+// School Resume Template (React + Tailwind)
+// Simple, professional, and student-friendly resume design.
+
+export default function SchoolResume() {
+  return (
+    <div className="min-h-screen bg-gray-50 p-8 font-sans">
+      <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-md overflow-hidden border border-gray-200">
+        {/* Header */}
+        <header className="p-6 border-b border-gray-200 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-800">Bayartsetseg B.</h1>
+            <p className="text-sm text-gray-500">Student • Business & Economics</p>
+            <div className="mt-1 text-xs text-gray-500 space-x-2">
+              <span>📍 Taiwan</span>
+              <span>•</span>
+              <span>✉️ bayart@example.com</span>
+              <span>•</span>
+              <span>📞 +886 900 000 000</span>
+            </div>
+          </div>
+          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-400 to-purple-400 flex items-center justify-center text-white text-3xl font-bold">
+            🎓
+          </div>
+        </header>
+
+        {/* Main Content */}
+        <main className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Left column */}
+          <section className="md:col-span-1 space-y-6">
+            {/* Profile */}
+            <div>
+              <h2 className="text-lg font-semibold text-gray-700">Profile</h2>
+              <p className="mt-2 text-sm text-gray-600 leading-relaxed">
+                Dedicated and motivated business student with strong interests in economics, finance, and cultural projects.
+                Eager to apply academic knowledge to real-world challenges while developing leadership and teamwork skills.
+              </p>
+            </div>
+
+            {/* Skills */}
+            <div>
+              <h2 className="text-lg font-semibold text-gray-700">Skills</h2>
+              <ul className="mt-2 space-y-1 text-sm text-gray-600 list-disc ml-5">
+                <li>Research & Report Writing</li>
+                <li>Event Planning & Coordination</li>
+                <li>Data Analysis (Excel, SPSS)</li>
+                <li>Public Speaking</li>
+                <li>Teamwork & Collaboration</li>
+              </ul>
+            </div>
+
+            {/* Languages */}
+            <div>
+              <h2 className="text-lg font-semibold text-gray-700">Languages</h2>
+              <p className="mt-2 text-sm text-gray-600">Mongolian (Native) • English (B2/C1) • Mandarin (Basic)</p>
+            </div>
+          </section>
+
+          {/* Right column */}
+          <section className="md:col-span-2 space-y-6">
+            {/* Education */}
+            <div>
+              <h2 className="text-lg font-semibold text-gray-700">Education</h2>
+              <div className="mt-3 space-y-3 text-sm text-gray-600">
+                <div>
+                  <div className="flex justify-between">
+                    <span className="font-medium">Asian University of Taiwan — B.A. Business</span>
+                    <span className="italic text-xs text-gray-400">2022 — Present</span>
+                  </div>
+                  <p className="mt-1 text-xs text-gray-500">Focus: Economics, Finance, and International Business</p>
+                </div>
+                <div>
+                  <div className="flex justify-between">
+                    <span className="font-medium">Mongolian University of Finance & Economics</span>
+                    <span className="italic text-xs text-gray-400">2020 — 2022</span>
+                  </div>
+                  <p className="mt-1 text-xs text-gray-500">Completed foundational courses in business and statistics.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Experience */}
+            <div>
+              <h2 className="text-lg font-semibold text-gray-700">Experience</h2>
+              <div className="mt-3 space-y-3 text-sm text-gray-600">
+                <div>
+                  <div className="flex justify-between">
+                    <span className="font-medium">Event Organizer — Хэмнэл Arts Club</span>
+                    <span className="italic text-xs text-gray-400">2025</span>
+                  </div>
+                  <p className="mt-1 text-xs text-gray-500">Planned and coordinated cultural performances, managing logistics and creative design.</p>
+                </div>
+                <div>
+                  <div className="flex justify-between">
+                    <span className="font-medium">Finance Group Projects</span>
+                    <span className="italic text-xs text-gray-400">2023 — 2025</span>
+                  </div>
+                  <p className="mt-1 text-xs text-gray-500">Worked on financial forecasting, capital structure, and break-even analysis for real companies.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Achievements */}
+            <div>
+              <h2 className="text-lg font-semibold text-gray-700">Achievements</h2>
+              <ul className="mt-2 list-disc ml-5 text-sm text-gray-600 space-y-1">
+                <li>Presented cultural heritage project on Mongolia (2024)</li>
+                <li>IELTS target score: 7 (in progress)</li>
+                <li>TOEFL ITP preparation (target 550)</li>
+              </ul>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+  );
+}
